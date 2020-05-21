@@ -1,3 +1,4 @@
+import 'package:csocflutter/provider/gmail_model.dart';
 import 'package:csocflutter/utils/database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,10 +16,10 @@ class MailDetail extends StatefulWidget {
 class _MailDetailState extends State<MailDetail> {
   @override
   Widget build(BuildContext context) {
-    final mailid = ModalRoute.of(context).settings.arguments as String;
+    final loadedMail = ModalRoute.of(context).settings.arguments as Gmail;
     final df = new DateFormat('dd-MM-yyyy hh:mm a');
-    var loadedMail;
-    DBProvider.db.getMail(mailid).then((value) => loadedMail=value);
+  //  var loadedMail;
+   // DBProvider.db.getMail(mailid).then((value) => loadedMail=value);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -31,8 +32,8 @@ class _MailDetailState extends State<MailDetail> {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-             DBProvider.db.deleteMail(mailid);
-              Navigator.of(context).pop();
+             DBProvider.db.deleteMail(loadedMail.id);
+             Navigator.of(context).pushNamed(MailItem.routeName);
               
             },
           )
@@ -66,7 +67,7 @@ class _MailDetailState extends State<MailDetail> {
                       style: TextStyle(color: Colors.grey,fontSize: 20),
                     ),
                     Text(
-                      loadedMail.from,
+                      loadedMail.by,
                       style: TextStyle(color: Colors.black,fontSize: 20),
                     ),
                   ],

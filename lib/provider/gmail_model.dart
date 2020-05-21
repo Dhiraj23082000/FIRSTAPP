@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 
 
 class Gmail {
-  final String id;
+ final String id;
   final String by;
   final String sent;
   final String subject;
@@ -12,7 +12,7 @@ class Gmail {
 
   Gmail({
    // @required this.id,
-   this.id,
+  this.id,
     @required this.by,
     @required this.sent,
     @required this.subject,
@@ -25,7 +25,8 @@ class Gmail {
       sent:  json["sent"],
       subject:  json["subject"],
       description:  json["description"],
-       date: json["date"],
+       date:DateTime.parse(json["date"]),
+       
       );
 
 

@@ -3,14 +3,14 @@ import 'dart:ui';
 import 'package:csocflutter/provider/gmail_model.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+
 import './mail_list_screen.dart';
 import '../utils/database.dart';
 
 void _save(Gmail m) async {
   print("save intance");
-await DBProvider.db.newMail(m);
-
-  
+var x  = await DBProvider.db.newMail(m);
+print(x);  
 }
 
 class NewMail extends StatefulWidget {
@@ -20,6 +20,7 @@ class NewMail extends StatefulWidget {
 }
 
 class _NewMailState extends State<NewMail> {
+  String mailTable = 'mail_table';
   final _form = GlobalKey<FormState>();
   var _to = FocusNode();
   var _from = FocusNode();
@@ -30,7 +31,7 @@ class _NewMailState extends State<NewMail> {
   TextEditingController _to1 = TextEditingController();
   TextEditingController _description1 = TextEditingController();
   @override
-  void dispose() {
+  /*void dispose() {
     _to.dispose();
     _from.dispose();
     _subject.dispose();
@@ -40,7 +41,7 @@ class _NewMailState extends State<NewMail> {
     _to1.dispose();
     _description1.dispose();
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +72,7 @@ class _NewMailState extends State<NewMail> {
               Icons.save,
               color: Colors.black,
             ),
-            onPressed: () {
+            onPressed: ()async {
               final isValid = _form.currentState.validate();
               if (!isValid) {
                 return;
@@ -84,10 +85,14 @@ class _NewMailState extends State<NewMail> {
                   subject: _subject1.text,
                   description: _description1.text,
                   date: DateTime.now());
-              
-              
+                  print(composedMail.id);
                   _save(composedMail);
-              Navigator.of(context).pushNamed(MailItem.routeName);
+              
+                
+              Navigator.of(context).pushReplacementNamed(MailItem.routeName);
+               Scaffold
+        .of(context)
+        .showSnackBar(SnackBar(content: Text("Mail Created Successfuly")));
             },
           ),
         ],
